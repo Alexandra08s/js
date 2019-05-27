@@ -31,7 +31,7 @@ function returnFirstArgument(a) {
    sumWithDefaults(10) вернет 110
  */
 function sumWithDefaults(a, b = 100) {
-    return a+b;
+    return a + b;
 }
 
 /*
@@ -61,7 +61,7 @@ function returnFnResult(fn) {
  */
 function returnCounter(number = 0) {
     return function() {
-        return number+=1;
+        return ++number;
     }
 }
 
@@ -74,7 +74,9 @@ function returnCounter(number = 0) {
  Пример:
    returnArgumentsArray(1, 2, 3) вернет [1, 2, 3]
  */
-function returnArgumentsArray(...array) {
+function returnArgumentsArray() {
+    var array = [...arguments];
+
     return array;
 }
 
@@ -93,10 +95,10 @@ function returnArgumentsArray(...array) {
 
    console.log(newSum()) выведет 6
  */
-function bindFunction(fn, ...array) {
-    return function() {
-        return fn(...array);
-    }
+function bindFunction(fn) {
+    var array = [...arguments];
+
+    return () => fn.apply(array.slice(1));
 }
 
 export {
