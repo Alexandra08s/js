@@ -98,7 +98,7 @@ function returnArgumentsArray() {
 function bindFunction(fn) {
     var array = [...arguments];
 
-    return () => fn.apply(array.slice(1));
+    return () => fn.apply(null, array.slice(1));
 }
 
 export {
