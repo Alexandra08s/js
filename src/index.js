@@ -80,18 +80,30 @@ function upperProps(obj) {
 function slice(array, from, to) {
     var array2 = [];
 
-    to = to || array.length - 1;
-    for (let i = from; i < to + 1; i++) {
-        array2[i - from] = array[i];
-        if (i == to) {
-            break;
+    if (to === undefined) {
+        to = array.length;
+    } else if (to < 0) {
+        to = array.length + to;
+    }
+
+    if (from < 0) {
+        from = 0;
+    }
+
+    if (from != to) {
+        for (let i = from; i < to; i++) {
+            if (i == array.length) {
+                break;
+            }
+            array2[i - from] = array[i];
+            if (i == to) {
+                break;
+            }
         }
     }
-    array = array2;
 
-    return array;
+    return array2;
 }
-
 /*
 Задание 6 *:
 
