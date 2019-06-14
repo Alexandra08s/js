@@ -27,10 +27,7 @@ function createDivWithText(text) {
    prepend(document.querySelector('#one'), document.querySelector('#two')) // добавит элемент переданный первым аргументом в начало элемента переданного вторым аргументом
  */
 function prepend(what, where) {
-    var element = document.querySelector(where),
-        parentEl = element.parentNode;
-
-    parentEl.insertBefore(what, where);
+    where.insertBefore(what, where.firstChild);
 }
 
 /*
@@ -56,8 +53,8 @@ function findAllPSiblings(where) {
     var array = [],
         childrenEl = where.children;
 
-    for (var i = 0; i < childrenEl.length; i++) {
-        if (childrenEl[i] == '<p>') {
+    for (let i = 0; i < childrenEl.length - 1; i++) {
+        if (childrenEl[i].nextElementSibling.tagName  == 'P') {
             array.push(childrenEl[i]);
         }
     }
@@ -85,8 +82,10 @@ function findAllPSiblings(where) {
 function findError(where) {
     var result = [];
 
-    for (var child of where.childNodes) {
-        result.push(child.innerText);
+    for (let child of where.childNodes) {
+        if (child instanceof Element) {
+            result.push(child.innerText);
+        }
     }
 
     return result;
@@ -105,6 +104,14 @@ function findError(where) {
    должно быть преобразовано в <div></div><p></p>
  */
 function deleteTextNodes(where) {
+    var parentEl = where.childNodes;
+
+    for (let i = 0; i < parentEl.length; i++) {
+        if (parentEl[i] instanceof Text) {
+            parentEl[i].parentNode.removeChild(parentEl[i]);
+        }
+    }
+
 }
 
 /*
@@ -119,6 +126,16 @@ function deleteTextNodes(where) {
    должно быть преобразовано в <span><div><b></b></div><p></p></span>
  */
 function deleteTextNodesRecursive(where) {
+    for (let i = 0; i < where.childNodes.length; i++) {
+        let child = where.childNodes[i];
+
+        if (child instanceof Text) {
+            where.removeChild(child); 
+            i--; 
+        } else if (child instanceof Element) {
+            deleteTextNodesRecursive(child);
+        }
+    }
 }
 
 /*
