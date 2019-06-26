@@ -99,13 +99,22 @@ loadTowns()
         loadingBlock.style.display = 'none';
         filterBlock.style.display = 'block';
     });
-
 filterInput.addEventListener('keyup', function() {
     // это обработчик нажатия кливиш в текстовом поле
     if (filterInput.value) {
+        filterResult.innerHTML = '';
+
         let array = varTowns.filter(item => isMatching(item.name, filterInput.value));
 
-        filterResult.innerHTML = array.map(item => item.name);
+        let array2 = array.map(item => item.name);
+
+        for (let item of array2) {
+            const newDiv = document.createElement('div');
+
+            newDiv.innerHTML = item;
+            filterResult.appendChild(newDiv);
+        }
+        
     } else {
         filterResult.innerHTML = '';
     }
